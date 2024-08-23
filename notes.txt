@@ -1,0 +1,5 @@
+tensorflow_model_server --rest_api_port=8601  --allow_version_labels_for_unavailable_models --model_config_file=/plants-detection/model.config.a
+
+python main.py
+
+gcloud functions deploy predict_potato --runtime python37 --trigger-http --memory 512 --project crafty-dynamics-328022

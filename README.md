@@ -116,9 +116,9 @@ npm run start
 
 3. On the homepage, you can select to predict potato disease or tomato disease. Then you can upload the image on the website to get the predictions. Showcase as below:
 
-![web homepahe](showcase\web_homepage.jpg?raw=true "Title")
-![web potato](showcase\web_potato1.jpg?raw=true "Title")
-![web tomato](showcase\web_tomato1.jpg?raw=true "Title")
+![web homepahe](web_homepage.jpg)
+![web potato](web_potato1.jpg)
+![web tomato](web_tomato1.jpg)
 
 ## Running the app
 

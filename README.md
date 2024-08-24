@@ -32,9 +32,7 @@ npm install --from-lock-json
 npm audit fix
 ```
 
-4. Copy `.env.example` as `.env`.
-
-5. Change API url in `.env`.
+5. Change API url in `.env` is needed.
 
 ### Setup for React-Native app
 
@@ -43,7 +41,7 @@ npm audit fix
 2. Install dependencies
 
 ```bash
-cd mobile-app
+cd mobile-app-potato
 yarn install
 ```
 
@@ -52,13 +50,14 @@ yarn install
 cd ios && pod install && cd ../
 ```
 
-3. Copy `.env.example` as `.env`.
-
-4. Change API url in `.env`.
+4. Change API url in `.env` is needed.
 
 ## Training the Model 
 
 ##### We use a convolutional neural network with data resizing and rescaling in the input layer, and Softmax activation function in the output layer. We also implemented data augumentation to imporve the performance. You can change the CNN architecture in the middle layers for a better performance if needed.
+
+##### models/1 is the trained model for potato disease classification, and models/2 is the trained model for tomamto disease classification. If you want to train the model by yourself, you can follow the steps below.
+
 ### Steps:
 
 1. Download the data from [kaggle](https://www.kaggle.com/arjuntejaswi/plant-village).
@@ -120,32 +119,18 @@ npm run start
 ![web potato](web_potato1.jpg)
 ![web tomato](web_tomato1.jpg)
 
-## Running the app
+## Mobile App Deployment and Showcase
 
-1. Get inside `mobile-app` folder
+### Deploying the TF Model (.h5) on GCP
 
-```bash
-cd mobile-app
+##### My trigger urls (public but might be terminated later) :
+
 ```
+https://us-central1-crafty-dynamics-328022.cloudfunctions.net/predict_potato
+https://us-central1-crafty-dynamics-328022.cloudfunctions.net/predict_tomato
 
-2. Copy the `.env.example` as `.env` and update `URL` to API URL if needed.
-
-3. Run the app (android/iOS)
-
-```bash
-npm run android
 ```
-
-or
-
-```bash
-npm run ios
-```
-
-4. Creating public ([signed APK](https://reactnative.dev/docs/signed-apk-android))
-
-
-## Deploying the TF Model (.h5) on GCP
+##### You can also deploy by yourself (and with your own model):
 
 1. Create a [GCP account](https://console.cloud.google.com/freetrial/signup/tos?_ga=2.25841725.1677013893.1627213171-706917375.1627193643&_gac=1.124122488.1627227734.Cj0KCQjwl_SHBhCQARIsAFIFRVVUZFV7wUg-DVxSlsnlIwSGWxib-owC-s9k6rjWVaF4y7kp1aUv5eQaAj2kEALw_wcB).
 2. Create a [Project on GCP](https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project) (Keep note of the project id).
@@ -162,11 +147,54 @@ gcloud auth login
 
 ```bash
 cd gcp
-gcloud functions deploy predict --runtime python38 --trigger-http --memory 512 --project project_id
+gcloud functions deploy predict_potato --runtime python38 --trigger-http --memory 512 --project project_id
+```
+
+```bash
+cd gcp
+gcloud functions deploy predict_tomato --runtime python38 --trigger-http --memory 512 --project project_id
 ```
 
 8. Your model is now deployed.
 9. Use Postman to test the GCF using the [Trigger URL](https://cloud.google.com/functions/docs/calling/http).
 
 Inspiration: https://cloud.google.com/blog/products/ai-machine-learning/how-to-serve-deep-learning-models-using-tensorflow-2-0-with-cloud-functions
+
+### Running the app
+
+1. Get inside `mobile-app-potato` folder
+
+```bash
+cd mobile-app-potato
+```
+
+2. Update `URL` to API URL in `.env` if needed.
+
+3. Run the app (android/iOS)
+
+```bash
+npm run android
+```
+
+or
+
+```bash
+npm run ios
+```
+
+4. Creating public ([signed APK](https://reactnative.dev/docs/signed-apk-android))
+
+5. Run the same steps for tomato disease classification in `mobile-app-tomato` folder
+
+Note: currently still facing some compile errors on my local machine, the showcase is from https://www.youtube.com/watch?v=mSf0j8qkkFI&list=PLeo1K3hjS3ut49PskOfLnE6WUoOp_2lsD&index=8
+
+![mobile potato](mobile_potato.png)
+
+## Future Improvement
+
+For future improvement, I will fix the compile errors for the mobile app and combine the two mobile apps for tomato and potato into one.
+
+I will also collect dataset and train the models to detect more kinds of plant diseases. 
+
+
 
